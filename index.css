@@ -1,3 +1,6 @@
+/* Google Fonts Import - MUST be at the top */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -44,7 +47,7 @@
 
 :root {
   /* Translate3D Brand Colors */
-  --primary: #7c3aed; /* Purple accent */
+  --primary: #7c3aed;
   --primary-foreground: #ffffff;
   --sidebar-primary: #7c3aed;
   --sidebar-primary-foreground: #ffffff;
@@ -171,15 +174,15 @@
   /* Translate3D Custom Styles */
   .translate-button {
     @apply px-6 py-4 rounded-lg font-bold text-lg transition-all duration-300 transform;
-    @apply bg-primary text-primary-foreground;
-    @apply hover:scale-105 hover:shadow-lg hover:shadow-primary/50;
+    @apply bg-gradient-to-r from-purple-500 to-purple-600 text-white;
+    @apply hover:scale-105 hover:shadow-lg hover:shadow-purple-500/50;
     @apply active:scale-95;
   }
 
   .translate-button-secondary {
     @apply px-4 py-3 rounded-lg font-semibold text-base transition-all duration-300;
-    @apply bg-secondary text-secondary-foreground border-2 border-primary;
-    @apply hover:bg-primary hover:text-primary-foreground;
+    @apply bg-secondary text-secondary-foreground border-2 border-purple-500;
+    @apply hover:bg-purple-500 hover:text-white;
   }
 
   .section-divider {
@@ -191,12 +194,22 @@
   }
 
   .glow-purple {
-    @apply shadow-lg shadow-primary/30;
+    @apply shadow-lg shadow-purple-500/30;
+  }
+
+  .display-text {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  @media (max-width: 640px) {
+    .display-text {
+      font-size: 2rem;
+    }
   }
 }
-
-/* Google Fonts Import */
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
 /* Typography */
 body {
@@ -206,17 +219,4 @@ body {
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
-}
-
-.display-text {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 3rem;
-  font-weight: 700;
-  line-height: 1.2;
-}
-
-@media (max-width: 640px) {
-  .display-text {
-    font-size: 2rem;
-  }
 }
