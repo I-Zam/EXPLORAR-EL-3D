@@ -1,23 +1,521 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
-
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-    <meta name="description" content="Traslada tus ideas, crea realidades impresas. Explora miles de modelos 3D para imprimir." />
-    <meta name="theme-color" content="#000000" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Traslada tus ideas, crea realidades impresas. Explora miles de modelos 3D para imprimir.">
+    <meta name="theme-color" content="#000000">
     <title>Translate3D - Traslada tus Ideas, Crea Realidades Impresas</title>
-  </head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-    <script
-      defer
-      src="%VITE_ANALYTICS_ENDPOINT%/umami"
-      data-website-id="%VITE_ANALYTICS_WEBSITE_ID%"></script>
-  </body>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000;
+            color: #ffffff;
+            line-height: 1.6;
+        }
 
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Header */
+        header {
+            padding: 1.5rem 0;
+            border-bottom: 1px solid #333333;
+            position: sticky;
+            top: 0;
+            background-color: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #7c3aed, #a78bfa);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+
+        .logo-text .main {
+            font-size: 0.9rem;
+        }
+
+        .logo-text .sub {
+            font-size: 0.65rem;
+            color: #a0a0a0;
+        }
+
+        .header-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .header-links a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .header-links a:hover {
+            color: #7c3aed;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            color: #7c3aed;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: #a0a0a0;
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-image {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            margin: 2rem auto;
+            display: block;
+        }
+
+        /* Stats Box */
+        .stats-box {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(167, 139, 250, 0.1));
+            border: 2px solid #7c3aed;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 3rem auto;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .stats-box .number {
+            font-size: 2.5rem;
+            color: #7c3aed;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stats-box .text {
+            color: #a0a0a0;
+            font-size: 1rem;
+        }
+
+        /* Categories Section */
+        .categories {
+            padding: 3rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #a0a0a0;
+            margin-bottom: 2rem;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .category-card {
+            background: rgba(124, 58, 237, 0.05);
+            border: 2px dashed #7c3aed;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .category-card:hover {
+            background: rgba(124, 58, 237, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .category-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .category-name {
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        /* Libraries Section */
+        .libraries {
+            padding: 3rem 0;
+        }
+
+        .libraries-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .library-card {
+            background: rgba(124, 58, 237, 0.05);
+            border: 2px dashed #7c3aed;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s;
+        }
+
+        .library-card:hover {
+            background: rgba(124, 58, 237, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .library-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .library-name {
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+
+        .library-desc {
+            color: #a0a0a0;
+            font-size: 0.9rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .cta-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .cta-subtitle {
+            color: #a0a0a0;
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #7c3aed, #a78bfa);
+            color: #ffffff;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(124, 58, 237, 0.5);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #0a0a0a;
+            border-top: 1px solid #333333;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .footer-section p {
+            color: #a0a0a0;
+            font-size: 0.9rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #7c3aed;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #a78bfa;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            color: #666666;
+            font-size: 0.85rem;
+            border-top: 1px solid #333333;
+            padding-top: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero h2 {
+                font-size: 1.8rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .stats-box .number {
+                font-size: 2rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero, .categories, .libraries, .cta-section {
+            animation: fadeIn 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">T3D</div>
+                    <div class="logo-text">
+                        <div class="main">Translate3D</div>
+                        <div class="sub">Realidades Impresas</div>
+                    </div>
+                </div>
+                <div class="header-links">
+                    <a href="https://www.instagram.com/translate3d.tech/" target="_blank" title="Instagram">📷</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Traslada tus ideas</h1>
+            <h2>Crea realidades impresas</h2>
+            <p>Explora miles de modelos 3D increíbles que puedes imprimir hoy mismo. Desde juguetes hasta gadgets, desde arte hasta herramientas útiles.</p>
+            
+            <!-- Hero Image (Placeholder) -->
+            <div style="width: 100%; max-width: 400px; height: 300px; margin: 2rem auto; background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(167, 139, 250, 0.2)); border-radius: 12px; display: flex; align-items: center; justify-content: center; border: 2px dashed #7c3aed;">
+                <div style="text-align: center;">
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">🎲</div>
+                    <div style="color: #a0a0a0;">Imagen 3D</div>
+                </div>
+            </div>
+
+            <!-- Stats Box -->
+            <div class="stats-box">
+                <div class="number">+2,000,000</div>
+                <div class="text">de modelos 3D listos para explorar</div>
+                <div style="color: #7c3aed; font-size: 0.9rem; margin-top: 0.5rem;">Seguro encuentras algo increíble que imprimir</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories">
+        <div class="container">
+            <h2 class="section-title">Elige algo increíble</h2>
+            <p class="section-subtitle">Explora por categorías y descubre qué te inspira</p>
+            
+            <div class="categories-grid">
+                <div class="category-card">
+                    <div class="category-icon">🎮</div>
+                    <div class="category-name">Juguetes</div>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">⚡</div>
+                    <div class="category-name">Gadgets</div>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">🛠️</div>
+                    <div class="category-name">Cosas Útiles</div>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">🎨</div>
+                    <div class="category-name">Arte</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Libraries Section -->
+    <section class="libraries">
+        <div class="container">
+            <h2 class="section-title">Bibliotecas de modelos 3D</h2>
+            <p class="section-subtitle">Accede a las mejores plataformas de modelos 3D gratuitos</p>
+            
+            <div class="libraries-grid">
+                <a href="https://www.thingiverse.com" target="_blank" class="library-card">
+                    <div class="library-icon">🎨</div>
+                    <div class="library-name">Thingiverse</div>
+                    <div class="library-desc">Millones de modelos 3D gratuitos</div>
+                </a>
+                <a href="https://www.printables.com" target="_blank" class="library-card">
+                    <div class="library-icon">🖨️</div>
+                    <div class="library-name">Printables</div>
+                    <div class="library-desc">Modelos listos para imprimir</div>
+                </a>
+                <a href="https://makerworld.com" target="_blank" class="library-card">
+                    <div class="library-icon">🌍</div>
+                    <div class="library-name">MakerWorld</div>
+                    <div class="library-desc">Comunidad global de makers</div>
+                </a>
+                <a href="https://thangs.com" target="_blank" class="library-card">
+                    <div class="library-icon">⚙️</div>
+                    <div class="library-name">Thangs</div>
+                    <div class="library-desc">Modelos y diseños profesionales</div>
+                </a>
+                <a href="https://cults3d.com" target="_blank" class="library-card">
+                    <div class="library-icon">🎯</div>
+                    <div class="library-name">Cults3D</div>
+                    <div class="library-desc">Modelos gratuitos curados</div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2 class="cta-title">¿Encontraste algo que te guste?</h2>
+            <p class="cta-subtitle">Síguenos en Instagram y comparte tus creaciones impresas en 3D</p>
+            <a href="https://www.instagram.com/translate3d.tech/" target="_blank" class="cta-button">📸 Síguenos en Instagram</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Translate3D</h3>
+                    <p>Traslada tus ideas, crea realidades impresas</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Enlaces</h3>
+                    <div class="footer-links">
+                        <a href="https://www.thingiverse.com" target="_blank">Thingiverse</a>
+                        <a href="https://www.printables.com" target="_blank">Printables</a>
+                        <a href="https://makerworld.com" target="_blank">MakerWorld</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Ubicación</h3>
+                    <p>Salamanca, México</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Translate3D. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+</body>
 </html>
