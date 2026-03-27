@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Traslada tus ideas, crea realidades impresas. Explora miles de modelos 3D para imprimir.">
+    <meta name="description" content="Traslada tus ideas, crea realidades impresas. Explora millones de modelos 3D para imprimir.">
     <meta name="theme-color" content="#000000">
     <title>Translate3D - Traslada tus Ideas, Crea Realidades Impresas</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -21,6 +22,7 @@
             background-color: #000000;
             color: #ffffff;
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
         h1, h2, h3, h4, h5, h6 {
@@ -32,6 +34,16 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 1rem;
+        }
+
+        /* Partículas de fondo */
+        #particles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
         }
 
         /* Header */
@@ -54,20 +66,27 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.8rem;
             font-size: 1.5rem;
             font-weight: 700;
         }
 
         .logo-icon {
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             background: linear-gradient(135deg, #7c3aed, #a78bfa);
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 2px;
         }
 
         .logo-text {
@@ -77,7 +96,7 @@
         }
 
         .logo-text .main {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
         }
 
         .logo-text .sub {
@@ -94,45 +113,43 @@
             color: #ffffff;
             text-decoration: none;
             transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .header-links a:hover {
             color: #7c3aed;
         }
 
+        .header-links img {
+            width: 30px;
+            height: 30px;
+        }
+
         /* Hero Section */
         .hero {
-            padding: 4rem 0;
+            padding: 3rem 0;
             text-align: center;
         }
 
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+        .hero-question {
+            font-size: 2rem;
+            font-weight: 700;
             color: #ffffff;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+            animation: fadeIn 0.8s ease-out;
         }
 
-        .hero h2 {
-            font-size: 2.5rem;
-            color: #7c3aed;
-            margin-bottom: 1.5rem;
-        }
-
-        .hero p {
-            font-size: 1.1rem;
+        .hero-subtext {
+            font-size: 1rem;
             color: #a0a0a0;
-            margin-bottom: 3rem;
-            max-width: 800px;
+            margin-bottom: 1.5rem;
+            max-width: 700px;
             margin-left: auto;
             margin-right: auto;
-        }
-
-        .hero-image {
-            width: 100%;
-            max-width: 400px;
-            height: auto;
-            margin: 2rem auto;
-            display: block;
+            animation: fadeIn 1s ease-out 0.2s both;
         }
 
         /* Stats Box */
@@ -140,26 +157,84 @@
             background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(167, 139, 250, 0.1));
             border: 2px solid #7c3aed;
             border-radius: 12px;
-            padding: 2rem;
-            margin: 3rem auto;
+            padding: 1.5rem;
+            margin: 1.5rem auto;
             max-width: 600px;
             text-align: center;
+            animation: fadeIn 1.2s ease-out 0.4s both;
         }
 
         .stats-box .number {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             color: #7c3aed;
             font-weight: 700;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.3rem;
         }
 
         .stats-box .text {
             color: #a0a0a0;
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
 
-        /* Categories Section */
-        .categories {
+        /* Main CTA Button */
+        .main-cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #7c3aed, #a78bfa);
+            color: #ffffff;
+            padding: 1.2rem 2.5rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            margin: 1.5rem 0;
+            display: inline-block;
+            box-shadow: 0 8px 20px rgba(124, 58, 237, 0.3);
+            animation: fadeIn 1.4s ease-out 0.6s both;
+        }
+
+        .main-cta-button:hover {
+            transform: scale(1.08);
+            box-shadow: 0 12px 30px rgba(124, 58, 237, 0.5);
+        }
+
+        .guide-text {
+            margin-top: 1rem;
+            color: #a0a0a0;
+            font-size: 0.9rem;
+            animation: fadeIn 1.6s ease-out 0.8s both;
+        }
+
+        .guide-text div {
+            margin: 0.3rem 0;
+        }
+
+        /* 3D Model Container */
+        .model-container {
+            width: 100%;
+            max-width: 400px;
+            height: 350px;
+            margin: 2rem auto;
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(167, 139, 250, 0.1));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #7c3aed;
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 1.8s ease-out 1s both;
+        }
+
+        model-viewer {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Libraries Section */
+        .libraries {
             padding: 3rem 0;
         }
 
@@ -176,47 +251,11 @@
             margin-bottom: 2rem;
         }
 
-        .categories-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-        }
-
-        .category-card {
-            background: rgba(124, 58, 237, 0.05);
-            border: 2px dashed #7c3aed;
-            border-radius: 12px;
-            padding: 2rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .category-card:hover {
-            background: rgba(124, 58, 237, 0.15);
-            transform: translateY(-5px);
-        }
-
-        .category-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        .category-name {
-            font-weight: 600;
-            color: #ffffff;
-        }
-
-        /* Libraries Section */
-        .libraries {
-            padding: 3rem 0;
-        }
-
         .libraries-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1.5rem;
+            margin-bottom: 3rem;
         }
 
         .library-card {
@@ -228,11 +267,19 @@
             text-decoration: none;
             color: inherit;
             transition: all 0.3s;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: appear 0.8s ease forwards;
         }
+
+        .library-card:nth-child(1) { animation-delay: 0.1s; }
+        .library-card:nth-child(2) { animation-delay: 0.2s; }
+        .library-card:nth-child(3) { animation-delay: 0.3s; }
 
         .library-card:hover {
             background: rgba(124, 58, 237, 0.15);
             transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(124, 58, 237, 0.3);
         }
 
         .library-icon {
@@ -251,6 +298,63 @@
             font-size: 0.9rem;
         }
 
+        /* Categories Section */
+        .categories {
+            padding: 3rem 0;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .category-button {
+            background: rgba(124, 58, 237, 0.05);
+            border: 2px solid #7c3aed;
+            border-radius: 12px;
+            padding: 1.8rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: appear 0.8s ease forwards;
+        }
+
+        .category-button:nth-child(1) { animation-delay: 0.1s; }
+        .category-button:nth-child(2) { animation-delay: 0.2s; }
+        .category-button:nth-child(3) { animation-delay: 0.3s; }
+        .category-button:nth-child(4) { animation-delay: 0.4s; }
+        .category-button:nth-child(5) { animation-delay: 0.5s; }
+        .category-button:nth-child(6) { animation-delay: 0.6s; }
+        .category-button:nth-child(7) { animation-delay: 0.7s; }
+        .category-button:nth-child(8) { animation-delay: 0.8s; }
+        .category-button:nth-child(9) { animation-delay: 0.9s; }
+        .category-button:nth-child(10) { animation-delay: 1s; }
+        .category-button:nth-child(11) { animation-delay: 1.1s; }
+
+        .category-button:hover {
+            background: rgba(124, 58, 237, 0.15);
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(124, 58, 237, 0.3);
+        }
+
+        .category-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .category-name {
+            font-weight: 700;
+            color: #ffffff;
+            font-size: 1rem;
+        }
+
         /* CTA Section */
         .cta-section {
             padding: 3rem 0;
@@ -266,6 +370,9 @@
         .cta-subtitle {
             color: #a0a0a0;
             margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .cta-button {
@@ -280,11 +387,86 @@
             border: none;
             cursor: pointer;
             font-size: 1rem;
+            box-shadow: 0 8px 20px rgba(124, 58, 237, 0.3);
         }
 
         .cta-button:hover {
             transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(124, 58, 237, 0.5);
+            box-shadow: 0 12px 30px rgba(124, 58, 237, 0.5);
+        }
+
+        /* Gallery Section */
+        .gallery-section {
+            padding: 3rem 0;
+        }
+
+        .gallery-container {
+            margin: 2rem 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(124, 58, 237, 0.2);
+            animation: fadeIn 2s ease-out;
+        }
+
+        .gallery-note {
+            text-align: center;
+            color: #a0a0a0;
+            margin-top: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .gallery-note strong {
+            color: #7c3aed;
+        }
+
+        /* WhatsApp Floating Button */
+        .whatsapp-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #25D366, #20BA5F);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #ffffff;
+            font-size: 1.8rem;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+            transition: all 0.3s;
+            z-index: 50;
+            animation: pulse 2s infinite;
+        }
+
+        .whatsapp-button:hover {
+            transform: scale(1.15);
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.6);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .whatsapp-label {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            background: rgba(37, 211, 102, 0.95);
+            color: #ffffff;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .whatsapp-button:hover .whatsapp-label {
+            opacity: 1;
         }
 
         /* Footer */
@@ -336,29 +518,6 @@
             padding-top: 1rem;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .hero h2 {
-                font-size: 1.8rem;
-            }
-
-            .hero p {
-                font-size: 1rem;
-            }
-
-            .section-title {
-                font-size: 1.5rem;
-            }
-
-            .stats-box .number {
-                font-size: 2rem;
-            }
-        }
-
         /* Animations */
         @keyframes fadeIn {
             from {
@@ -371,25 +530,76 @@
             }
         }
 
-        .hero, .categories, .libraries, .cta-section {
-            animation: fadeIn 0.6s ease-out;
+        @keyframes appear {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-question {
+                font-size: 1.5rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .stats-box .number {
+                font-size: 1.8rem;
+            }
+
+            .main-cta-button {
+                padding: 1rem 2rem;
+                font-size: 1rem;
+            }
+
+            .whatsapp-button {
+                bottom: 1.5rem;
+                right: 1.5rem;
+                width: 55px;
+                height: 55px;
+                font-size: 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Partículas de fondo -->
+    <div id="particles"></div>
+
     <!-- Header -->
     <header>
         <div class="container">
             <div class="header-content">
                 <div class="logo">
-                    <div class="logo-icon">T3D</div>
+                    <div class="logo-icon">
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+                            <!-- Hexágono externo -->
+                            <polygon points="100,20 170,55 170,145 100,180 30,145 30,55" fill="none" stroke="#a78bfa" stroke-width="8"/>
+                            <!-- Mano/Brazo izquierdo -->
+                            <path d="M 60 80 L 50 70 L 45 75 L 55 85" fill="#a78bfa"/>
+                            <!-- Mano/Brazo derecho -->
+                            <path d="M 140 80 L 150 70 L 155 75 L 145 85" fill="#a78bfa"/>
+                            <!-- Centro hexágono interior -->
+                            <polygon points="100,60 130,75 130,105 100,120 70,105 70,75" fill="none" stroke="#a78bfa" stroke-width="6"/>
+                        </svg>
+                    </div>
                     <div class="logo-text">
                         <div class="main">Translate3D</div>
                         <div class="sub">Realidades Impresas</div>
                     </div>
                 </div>
                 <div class="header-links">
-                    <a href="https://www.instagram.com/translate3d.tech/" target="_blank" title="Instagram">📷</a>
+                    <a href="https://www.instagram.com/translate3d.tech/" target="_blank" title="Instagram">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor" style="width:30px;height:30px;">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="currentColor" stroke-width="2"/>
+                            <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/>
+                            <circle cx="17" cy="7" r="1" fill="currentColor"/>
+                        </svg>
+                    </a>
                 </div>
             </div>
         </div>
@@ -398,96 +608,153 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">
-            <h1>Traslada tus ideas</h1>
-            <h2>Crea realidades impresas</h2>
-            <p>Explora miles de modelos 3D increíbles que puedes imprimir hoy mismo. Desde juguetes hasta gadgets, desde arte hasta herramientas útiles.</p>
+            <!-- Pregunta Psicológica Principal -->
+            <div class="hero-question">
+                ¿Qué podrías imprimir en 3D si tuvieras todo a tu alcance?
+            </div>
             
-            <!-- Hero Image (Placeholder) -->
-            <div style="width: 100%; max-width: 400px; height: 300px; margin: 2rem auto; background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(167, 139, 250, 0.2)); border-radius: 12px; display: flex; align-items: center; justify-content: center; border: 2px dashed #7c3aed;">
-                <div style="text-align: center;">
-                    <div style="font-size: 4rem; margin-bottom: 1rem;">🎲</div>
-                    <div style="color: #a0a0a0;">Imagen 3D</div>
-                </div>
+            <!-- Frase Reptiliana -->
+            <div class="hero-subtext">
+                Millones de cosas increíbles existen… solo necesitas descubrirlas y hacerlas reales.
             </div>
 
             <!-- Stats Box -->
             <div class="stats-box">
                 <div class="number">+2,000,000</div>
-                <div class="text">de modelos 3D listos para explorar</div>
-                <div style="color: #7c3aed; font-size: 0.9rem; margin-top: 0.5rem;">Seguro encuentras algo increíble que imprimir</div>
+                <div class="text">modelos 3D listos para explorar y convertir en realidad</div>
+            </div>
+
+            <!-- Botón Gigante de Acción -->
+            <a href="https://www.makerworld.com/en/search?keyword=&category=all" target="_blank" class="main-cta-button">
+                🚀 EXPLORAR MODELOS 3D AHORA
+            </a>
+
+            <!-- Guía de 3 pasos -->
+            <div class="guide-text">
+                <div>1️⃣ Explora millones de modelos</div>
+                <div>2️⃣ Encuentra algo increíble</div>
+                <div>3️⃣ Envíanos el link por Instagram</div>
+            </div>
+
+            <!-- Visor 3D Real - Cubo Rubik -->
+            <div class="model-container">
+                <model-viewer
+                    src="https://modelviewer.dev/shared-assets/models/cube.glb"
+                    auto-rotate
+                    camera-controls
+                    style="width:100%; height:100%;">
+                </model-viewer>
             </div>
         </div>
     </section>
 
-    <!-- Categories Section -->
-    <section class="categories">
-        <div class="container">
-            <h2 class="section-title">Elige algo increíble</h2>
-            <p class="section-subtitle">Explora por categorías y descubre qué te inspira</p>
-            
-            <div class="categories-grid">
-                <div class="category-card">
-                    <div class="category-icon">🎮</div>
-                    <div class="category-name">Juguetes</div>
-                </div>
-                <div class="category-card">
-                    <div class="category-icon">⚡</div>
-                    <div class="category-name">Gadgets</div>
-                </div>
-                <div class="category-card">
-                    <div class="category-icon">🛠️</div>
-                    <div class="category-name">Cosas Útiles</div>
-                </div>
-                <div class="category-card">
-                    <div class="category-icon">🎨</div>
-                    <div class="category-name">Arte</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Libraries Section -->
+    <!-- Libraries Section (PRIMERO) -->
     <section class="libraries">
         <div class="container">
-            <h2 class="section-title">Bibliotecas de modelos 3D</h2>
-            <p class="section-subtitle">Accede a las mejores plataformas de modelos 3D gratuitos</p>
+            <h2 class="section-title">Explora las mejores bibliotecas 3D</h2>
+            <p class="section-subtitle">Accede a millones de modelos gratuitos y profesionales</p>
             
             <div class="libraries-grid">
-                <a href="https://www.thingiverse.com" target="_blank" class="library-card">
-                    <div class="library-icon">🎨</div>
-                    <div class="library-name">Thingiverse</div>
-                    <div class="library-desc">Millones de modelos 3D gratuitos</div>
-                </a>
-                <a href="https://www.printables.com" target="_blank" class="library-card">
-                    <div class="library-icon">🖨️</div>
-                    <div class="library-name">Printables</div>
-                    <div class="library-desc">Modelos listos para imprimir</div>
-                </a>
-                <a href="https://makerworld.com" target="_blank" class="library-card">
+                <a href="https://www.makerworld.com/en/search?keyword=&category=all" target="_blank" class="library-card">
                     <div class="library-icon">🌍</div>
                     <div class="library-name">MakerWorld</div>
-                    <div class="library-desc">Comunidad global de makers</div>
-                </a>
-                <a href="https://thangs.com" target="_blank" class="library-card">
-                    <div class="library-icon">⚙️</div>
-                    <div class="library-name">Thangs</div>
-                    <div class="library-desc">Modelos y diseños profesionales</div>
+                    <div class="library-desc">Comunidad global de makers con modelos curados</div>
                 </a>
                 <a href="https://cults3d.com" target="_blank" class="library-card">
                     <div class="library-icon">🎯</div>
                     <div class="library-name">Cults3D</div>
-                    <div class="library-desc">Modelos gratuitos curados</div>
+                    <div class="library-desc">Modelos de calidad y diseños exclusivos</div>
+                </a>
+                <a href="https://www.creality.com/pages/creality-cloud" target="_blank" class="library-card">
+                    <div class="library-icon">🖨️</div>
+                    <div class="library-name">Creality Cloud</div>
+                    <div class="library-desc">Modelos optimizados para impresoras Creality</div>
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- CTA Section -->
+    <!-- Categories Section (DESPUÉS) -->
+    <section class="categories">
+        <div class="container">
+            <h2 class="section-title">¿Qué tipo de cosas quieres imprimir?</h2>
+            <p class="section-subtitle">Explora por universos y categorías en MakerWorld</p>
+            
+            <div class="categories-grid">
+                <a href="https://www.makerworld.com/en/search?keyword=harry+potter" target="_blank" class="category-button">
+                    <div class="category-icon">🪄</div>
+                    <div class="category-name">Harry Potter</div>
+                </a>
+                <a href="https://www.makerworld.com/en/search?keyword=stranger+things" target="_blank" class="category-button">
+                    <div class="category-icon">👹</div>
+                    <div class="category-name">Stranger Things</div>
+                </a>
+                <a href="https://www.makerworld.com/en/search?keyword=pokemon+pikachu" target="_blank" class="category-button">
+                    <div class="category-icon">⚡</div>
+                    <div class="category-name">Pokémon</div>
+                </a>
+                <a href="https://www.makerworld.com/en/search?keyword=five+nights" target="_blank" class="category-button">
+                    <div class="category-icon">🎮</div>
+                    <div class="category-name">Five Nights</div>
+                </a>
+                <a href="https://www.makerworld.com/en/search?keyword=demon+slayer" target="_blank" class="category-button">
+                    <div class="category-icon">⚔️</div>
+                    <div class="category-name">Demon Slayer</div>
+                </a>
+                <a href="https://www.makerworld.com/en/search?keyword=mascota+pet" target="_blank" class="category-button">
+                    <div class="category-icon">🐾</div>
+                    <div class="category-name">Mascotas</div>
+                </a>
+                <a href="https://www.makerworld.com/en/search?keyword=animal" target="_blank" class="category-button">
+                    <div class="category-icon">🦁</div>
+                    <div class="category-name">Animales</div>
+                </a>
+                <a href="https://www.makerworld.com/en/search?keyword=dinosaur" target="_blank" class="category-button">
+                    <div class="category-icon">🦕</div>
+                    <div class="category-name">Dinosaurios</div>
+                </a>
+                <a href="https://www.makerworld.com/en/search?keyword=herramienta+tool" target="_blank" class="category-button">
+                    <div class="category-icon">🔧</div>
+                    <div class="category-name">Herramientas</div>
+                </a>
+                <a href="https://www.makerworld.com/en/search?keyword=accesorio+accessory" target="_blank" class="category-button">
+                    <div class="category-icon">✨</div>
+                    <div class="category-name">Accesorios</div>
+                </a>
+                <a href="https://www.makerworld.com/en/search?keyword=useful+organizer" target="_blank" class="category-button">
+                    <div class="category-icon">🏠</div>
+                    <div class="category-name">Cosas Útiles</div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery-section">
+        <div class="container">
+            <h2 class="section-title">Nuestros Trabajos Realizados</h2>
+            <p class="section-subtitle">Mira todo lo que hemos impreso en 3D para nuestros clientes</p>
+            
+            <div class="gallery-container">
+                <!-- Galería de Google Fotos (reemplaza la URL cuando tengas tu carpeta) -->
+                <iframe src="https://photos.google.com/share/AF1QipM-PLACEHOLDER/photo?key=PLACEHOLDER" style="width:100%;height:600px;border:none;border-radius:12px;" allowfullscreen></iframe>
+            </div>
+            
+            <p class="gallery-note">📸 <strong>¿Tienes un modelo que quieras imprimir?</strong> Envíanos el link por Instagram y nosotros lo hacemos realidad.</p>
+        </div>
+    </section>
+
+    <!-- CTA Section Final -->
     <section class="cta-section">
         <div class="container">
-            <h2 class="cta-title">¿Encontraste algo que te guste?</h2>
-            <p class="cta-subtitle">Síguenos en Instagram y comparte tus creaciones impresas en 3D</p>
-            <a href="https://www.instagram.com/translate3d.tech?igsh=b3hmdHpzcWc1aTJ4&utm_source=qr" target="_blank" class="cta-button">📸 Síguenos en Instagram</a>
+            <h2 class="cta-title">¿Encontraste algo increíble?</h2>
+            <p class="cta-subtitle">
+                Copia el link del modelo que te gustó y envíanoslo por Instagram.<br>
+                Nosotros lo convertimos en un objeto real.
+            </p>
+            <a href="https://www.instagram.com/translate3d.tech/" target="_blank" class="cta-button">
+                📩 Enviar modelo por Instagram
+            </a>
         </div>
     </section>
 
@@ -500,11 +767,11 @@
                     <p>Traslada tus ideas, crea realidades impresas</p>
                 </div>
                 <div class="footer-section">
-                    <h3>Enlaces</h3>
+                    <h3>Enlaces Rápidos</h3>
                     <div class="footer-links">
-                        <a href="https://www.thingiverse.com" target="_blank">Thingiverse</a>
-                        <a href="https://www.printables.com" target="_blank">Printables</a>
-                        <a href="https://makerworld.com" target="_blank">MakerWorld</a>
+                        <a href="https://www.makerworld.com/en/search?keyword=&category=all" target="_blank">MakerWorld</a>
+                        <a href="https://cults3d.com" target="_blank">Cults3D</a>
+                        <a href="https://www.creality.com/pages/creality-cloud" target="_blank">Creality Cloud</a>
                     </div>
                 </div>
                 <div class="footer-section">
@@ -517,5 +784,47 @@
             </div>
         </div>
     </footer>
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/524641231975?text=Hola%20Translate3D%2C%20encontré%20un%20modelo%203D%20que%20me%20encanta%20y%20me%20gustaría%20que%20lo%20impriman%20para%20mí." target="_blank" class="whatsapp-button">
+        <span class="whatsapp-label">Chat con nosotros</span>
+        💬
+    </a>
+
+    <!-- Partículas dinámicas -->
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+    <script>
+        // Inicializar partículas
+        tsParticles.load("particles", {
+            particles: {
+                number: { value: 50 },
+                color: { value: "#7c3aed" },
+                opacity: { value: 0.4 },
+                size: { value: 2 },
+                move: { enable: true, speed: 0.8 }
+            },
+            interactivity: {
+                events: {
+                    onHover: { enable: true, mode: "repulse" }
+                }
+            },
+            background: { color: "#000000" }
+        });
+
+        // Efecto magnetismo en botón principal
+        const btn = document.querySelector(".main-cta-button");
+        if (btn) {
+            btn.addEventListener("mousemove", e => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                btn.style.transform = `scale(1.08) translate(${x * 0.08}px, ${y * 0.08}px)`;
+            });
+
+            btn.addEventListener("mouseleave", () => {
+                btn.style.transform = "scale(1)";
+            });
+        }
+    </script>
 </body>
 </html>
